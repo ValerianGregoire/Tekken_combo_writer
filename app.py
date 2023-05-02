@@ -104,7 +104,7 @@ def render(sentence:str,
            save = False,
            text = False):
     """
-    Create a collage of the img_array
+    Create a collage of the sentence
 
     Parameters
     ----------

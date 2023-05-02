@@ -1,8 +1,5 @@
 import tkinter as tk
-from app import read_word, render
-# combo = 'd4+3 d124 323FD 0 1 234 456 W! 12 1+4'
-# render(combo)
-
+from app import render
 
 win = tk.Tk()
 win.title("Tekken 7 - Combo Writer")
@@ -14,7 +11,7 @@ tk.Label(win, text = "Type a combo to render").pack(fill = 'x')
 
 
 # Combo input
-combo = tk.StringVar(value = 'df2 df2 u333+4 fF33 124')
+combo = tk.StringVar()
 comboEntry = tk.Entry(win, textvariable = combo)
 comboEntry.pack(fill = 'x', pady = 10)
 
@@ -66,20 +63,4 @@ tk.Label(bottom_frame,
                                                           padx = 30,
                                                           anchor = 'w')
 
-
 win.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
