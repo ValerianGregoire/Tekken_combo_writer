@@ -1,133 +1,73 @@
 import tkinter as tk
-from PIL import Image
+from app import read_word, render
+# combo = 'd4+3 d124 323FD 0 1 234 456 W! 12 1+4'
+# render(combo)
 
-# Image files
-images = {
-    
-    # Arrows
-    "f" : "f.jpg",
-    "df" : "df.jpg",
-    "d" : "d.jpg",
-    "db" : "db.jpg",
-    "b" : "b.jpg",
-    "ub" : "ub.jpg",
-    "u" : "u.jpg",
-    "uf" : "uf.jpg",
-    
-    # Black Arrows
-    "F" : "F.jpg",
-    "DF" : "DF.jpg",
-    "D" : "D.jpg",
-    "DB" : "DB.jpg",
-    "B" : "B.jpg",
-    "UB" : "UB.jpg",
-    "U" : "U.jpg",
-    "UF" : "UF.jpg",
-    
-    # Attacks
-    "1" : "1.jpg",
-    "2" : "2.jpg",
-    "3" : "3.jpg",
-    "4" : "4.jpg",
-    "12" : "12.jpg",
-    "13" : "13.jpg",
-    "14" : "14.jpg",
-    "23" : "23.jpg",
-    "24" : "24.jpg",
-    "34" : "34.jpg"
-    
-    
-    
-    
-    
-    
-    
-    }
 
-def read_word(_input:str):
-    """
-    Translates a sentence into an array of image files
+win = tk.Tk()
+win.title("Tekken 7 - Combo Writer")
+win.iconbitmap('./assets/icon.ico')
+win.resizable(True,False)
+win.geometry('444x169+250+130')
 
-    Parameters
-    ----------
-    word : str
-        DESCRIPTION.
+tk.Label(win, text = "Type a combo to render").pack(fill = 'x')
 
-    Returns
-    -------
-    None.
 
-    """
-    # Array with a list of files for each segment of a combo
-    result = []
-    
-    # Treat each "word" separately
-    for word in _input.split():
-        
-        # Image files that will be added to result
-        output = []
-        
-        
-        # Check each character
-        i = 0
-        while i < len(word):
-            char = word[i]
-            
-            # If last char of the word
-            if i < len(word) - 1:
-                # Check for white diagonal directions
-                if char == 'd' or char == 'u':
-                    if word[i+1] == 'f' or word[i+1] == 'b':
-                        char = word[i:i+2]
-                        i += 1
-                        
-                # Check for black diagonal directions
-                if char == 'D' or char == 'U':
-                    if word[i+1] == 'F' or word[i+1] == 'B':
-                        char = word[i:i+2]
-                        i += 1
-                
-                # Check for multiple-presses
-                if char == '1' or char == '2' or char == '3' or char == '4':
-                    if word[i+1] == '+':
-                        char = word[i]+word[i+2]
-                        
-                        # Reorder the numbers if needed
-                        if int(char[0])>int(char[1]):
-                            char = word[i+2]+word[i]
-                        
-                        i += 2
-    
-            # Append the current word to the output list
-            try:
-                output.append(images[char])
-            except KeyError:
-                output.append(word)
-                break
-            
-            # Increment i
-            i += 1
-        
-        # Append the output list to the result list
-        result.append(output.copy())
-    
-    return result
+# Combo input
+combo = tk.StringVar(value = 'df2 df2 u333+4 fF33 124')
+comboEntry = tk.Entry(win, textvariable = combo)
+comboEntry.pack(fill = 'x', pady = 10)
 
-def plot():
-    pass
-    return
+
+# Render and save options
+checkbox_frame = tk.Frame(win)
+checkbox_frame.pack(pady = 10)
+
+render_checkvar = tk.BooleanVar(value = True)
+checkbox_render = tk.Checkbutton(checkbox_frame,
+                                 text = 'Render',
+                                 onvalue = True,
+                                 offvalue = False,
+                                 variable = render_checkvar)
+checkbox_render.pack(side = 'left')
+
+save_checkvar = tk.BooleanVar(value = True)
+checkbox_save = tk.Checkbutton(checkbox_frame,
+                              text = 'Save Render',
+                              onvalue = True,
+                              offvalue = False,
+                              variable = save_checkvar)
+checkbox_save.pack(side = 'left')
+
+text_checkvar = tk.BooleanVar(value = True)
+checkbox_text = tk.Checkbutton(checkbox_frame,
+                                 text = 'Display Text',
+                                 onvalue = True,
+                                 offvalue = False,
+                                 variable = text_checkvar)
+checkbox_text.pack(side = 'left')
+
+bottom_frame = tk.Frame(win)
+bottom_frame.pack(fill = 'x', pady = 20)
 
 
 
-combo = 'd4+3 d124 323'
-print(read_word(combo))
+def run():
+    render(combo.get(),
+           display = render_checkvar.get(),
+           save = save_checkvar.get(),
+           text = text_checkvar.get())
+
+download_button = tk.Button(bottom_frame, text = 'Print', command = run)
+download_button.pack(side = 'right', padx = 30)
+
+tk.Label(bottom_frame,
+         text = 'Example: df2 df2 u333+4 fF33 124').pack(side = 'right',
+                                                          padx = 30,
+                                                          anchor = 'w')
 
 
-
-
-
-
-
+win.mainloop()
 
 
 
