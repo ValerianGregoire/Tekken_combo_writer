@@ -33,7 +33,7 @@ def read_word(_input:str):
     
     # Treat each "word" separately
     for word in _input.split():
-        
+        print(word)
         # Image files that will be added to result
         output = []
         raw_output = []
@@ -44,7 +44,7 @@ def read_word(_input:str):
         while i < len(word):
             char = word[i]
             
-            # If last char of the word
+            # If not last char of the word
             if i < len(word) - 1:
                 # Check for white diagonal directions
                 if char == 'd' or char == 'u':
@@ -58,14 +58,6 @@ def read_word(_input:str):
                         char = word[i:i+2]
                         i += 1
                 
-                # Check if char is a letter or a number
-                try:
-                    int(char)
-                except ValueError:
-                    # Check if char is a black arrow
-                    if char == char.upper():
-                        char += '_'
-                
                 # Check for multiple-presses
                 if char == '1' or char == '2' or char == '3' or char == '4':
                     if word[i+1] == '+':
@@ -76,6 +68,16 @@ def read_word(_input:str):
                             char = word[i+2]+word[i]
                         
                         i += 2
+                
+            # Check if char is a letter or a number
+            try:
+                int(char)
+            except ValueError:
+                # Check if char is a black arrow
+                if char == char.upper():
+                    char += '_'
+                
+                
     
             # Append the current word to the output list
             try:
